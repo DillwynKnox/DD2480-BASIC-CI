@@ -9,7 +9,11 @@
 ## Setup
 To Setup dependencies and the package run in the project root. (same level as `pyproject.toml`):
 ```
-pip install -e .
+pip install uv
+```
+
+Everytime the pyproject.toml changes run 
+uv sync --extra dev
 ```
 
 

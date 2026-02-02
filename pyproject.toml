@@ -1,35 +1,43 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
-name = "BASIC-CI"
+name = "basic-ci"
 version = "0.1.0"
-description = "Basic CI implentation"
+description = "Basic CI implementation"
 readme = "README.md"
 requires-python = ">=3.11"
-
 authors = [
-  { name =  "Davide Mario Attebrant Sbrzesny" },
+  { name = "Davide Mario Attebrant Sbrzesny" },
   { name = "Gabriel Alejandro Arias Goa" },
   { name = "Mohamed Aziz Jribi" },
   { name = "Yasmine Schüllerqvist" },
-  { name = "Anton Trappe" }
+  { name = "Anton Trappe "}
 ]
-
 dependencies = [
+    "fastapi",
 ]
 
 [project.optional-dependencies]
 dev = [
-  "pytest",
-]
+    "pytest",
+    "ruff",
+    ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/basic_ci"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
-[tool.setuptools.packages.find]
-include = ["src*"]
+[tool.ruff]
+line-length = 88
+src = ["src", "tests"]
 
-[project.scripts]
-start-decide = "src.main:main"
+[tool.ruff.lint]
+select = ["TID252"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
