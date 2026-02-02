@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "basic-ci"
-version = "0.1.0"
+version = "0.1.1"
 description = "Basic CI implementation"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -16,7 +16,7 @@ authors = [
   { name = "Anton Trappe "}
 ]
 dependencies = [
-    "fastapi",
+    "fastapi[standard]",
 ]
 
 [project.optional-dependencies]
@@ -36,8 +36,25 @@ line-length = 88
 src = ["src", "tests"]
 
 [tool.ruff.lint]
-select = ["TID252"]
+select = [
+    "F401",   # Remove unused imports
+    "TID252", # Ban relative imports
+    "TID251",
+    "I",      # Sort imports
+    "ANN",    # Enforce type annotations
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/**/*.py" = ["ANN"]
+
+[tool.ruff.lint.flake8-annotations]
+allow-star-arg-any = true
+ignore-fully-untyped = false
+suppress-none-returning = true
 
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
 
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"src".msg = "Do not import from 'src'. Use the package name directly (e.g., 'from my_api import ...')."
