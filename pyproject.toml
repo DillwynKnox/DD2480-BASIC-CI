@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "BASIC-CI"
+version = "0.1.0"
+description = "Basic CI implentation"
+readme = "README.md"
+requires-python = ">=3.11"
+
+authors = [
+  { name =  "Davide Mario Attebrant Sbrzesny" },
+  { name = "Gabriel Alejandro Arias Goa" },
+  { name = "Mohamed Aziz Jribi" },
+  { name = "Yasmine Schüllerqvist" },
+  { name = "Anton Trappe" }
+]
+
+dependencies = [
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+include = ["src*"]
+
+[project.scripts]
+start-decide = "src.main:main"
