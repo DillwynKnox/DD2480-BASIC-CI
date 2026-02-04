@@ -2,8 +2,53 @@
 
 To contribute please follow the following steps in order:
 
+## Vscode Development
+If you use Vscode add this into your `.vscode/settings.json`
+```
+"python.analysis.extraPaths": [
+        "./src"
+    ],
+    "python.analysis.autoSearchPaths": true,
+    "terminal.integrated.env.linux": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+    },
+    "terminal.integrated.env.osx": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+    },
+    "terminal.integrated.env.windows": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+    }
+```
+And if you want to debug the application add this into your `.vscode/launch.json`
+```
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: FastAPI (src layout)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "my_api.main:app",
+                "--reload",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8000"
+            ],
+            "jinja": true,
+            "justMyCode": true,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            }
+        }
+    ]
+}
+```
+
 ## Issue
-First open an issue for the thing you want to do in github ([issues tab](https://gits-15.sys.kth.se/DD2480-Group-9/DECIDE/issues)).
+First open an issue for the thing you want to do in github ([issues tab]().
 The Issue should be atomar (meaning self contained but not unnecessary large).
 Every Issue should start with either:
   - [DOC] for documentation (like writing README etc)
@@ -28,16 +73,28 @@ git checkout the-name-of-your-issue
 Do the actual thing that is described in the issue.
 If it is a feature implement ALWAYS also implement a test for it in the `tests` folder that uses `pytest`
 and the file should start with `test_` every seperate file should have a seperate test file.
+Here is an article on endpoint testing in fastapi [Testing](https://fastapi.tiangolo.com/tutorial/testing/#extended-testing-file)
 
 ## Code convetions.
-All imports should have the full path in them so local imports always should look like
-`from src.somethin.somethig import something`
+All imports should have the module path in them so imports always should look like
+`from basic_ci.somethig import something`
  
  DO NOT USE:
  ```
- import something
- from something import something
+ import src.something
+ from src.csomething import something
  ```
+
+ ## Fix formatting
+ All code on main should be formatted with the code formatter to check if something violates the code style run:
+ ```
+ make lint
+ ```
+ and to fix all automatically fixable formatting problems run:
+ ```
+ make lint_fint
+ ```
+
  
 
 
