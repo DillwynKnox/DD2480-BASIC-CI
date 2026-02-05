@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Any
 
 ##Useful link:
 ##https://docs.github.com/en/webhooks/webhook-events-and-payloads#push
