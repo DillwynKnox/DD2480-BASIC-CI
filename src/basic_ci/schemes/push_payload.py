@@ -10,7 +10,6 @@ class Github_basemodel(BaseModel):
 class Github_user(Github_basemodel):
     name: str
     email: Optional[str]
-    username: Optional[str]
     date: Optional[str] = None
 
 class Commit_author(Github_user):
@@ -77,5 +76,4 @@ class Push_payload(Github_basemodel):
 
     pusher: Pusher
 
-    installation: Optional[dict]
     sender: Optional[dict]
