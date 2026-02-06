@@ -12,13 +12,13 @@ def make_run_id(commit_hash: Optional[str] = None, length: int = 24) -> str:
     """
     commit_part = (commit_hash or "").strip().lower()
 
-    # High-resolution time + strong randomness
+    
     now_ns = time.time_ns()
-    rand = uuid.uuid4().hex  # 32 hex chars, lowercase
+    rand = uuid.uuid4().hex  
 
     raw = f"{commit_part}|{now_ns}|{rand}".encode("utf-8")
-    digest = hashlib.sha256(raw).hexdigest()  # filename-safe (hex)
+    digest = hashlib.sha256(raw).hexdigest()  
 
-    # Keep it short but still collision-resistant
+    
     length = max(12, min(length, 64))
     return digest[:length]
