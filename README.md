@@ -17,7 +17,7 @@ Everytime the pyproject.toml changes run
 uv sync --extra dev
 ```
 or 
-```
+```bash
 make setup
 ```
 
