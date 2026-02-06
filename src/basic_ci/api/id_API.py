@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from basic_ci.services.id_service import make_run_id
+from src.basic_ci.services.id_service import make_run_id
 
 app = FastAPI()
 
