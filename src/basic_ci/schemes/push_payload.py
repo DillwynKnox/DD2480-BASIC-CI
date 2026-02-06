@@ -53,7 +53,7 @@ class Pusher:
     username: str
     
 @dataclass
-class Push_payload_parameters:
+class Push_payload:
     after: str
     base_ref: str | None
     before: str
