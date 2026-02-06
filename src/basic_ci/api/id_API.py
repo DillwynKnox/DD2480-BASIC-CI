@@ -13,9 +13,3 @@ def create_run_id(body: RunRequest):
     run_id = make_run_id(body.commit_hash)
     return {"run_id": run_id}
 
-@app.post("/webhook")
-async def github_webhook(request: Request):
-    payload = await request.json()
-    commit_hash = payload.get("after")  # GitHub push event
-    run_id = make_run_id(commit_hash)
-    return {"run_id": run_id}
