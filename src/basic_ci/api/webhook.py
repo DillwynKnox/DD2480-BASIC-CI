@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from basic_ci.schemes.push_payload import Push_payload, PushPayload
+from basic_ci.schemes.push_payload import Push_payload
 
 router = APIRouter(tags=["webhook"])
 
