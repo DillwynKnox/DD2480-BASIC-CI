@@ -18,8 +18,9 @@ authors = [
 dependencies = [
     "fastapi[standard]",
     "pydantic",
-    "requests"
-    ]
+    "requests",
+    "GitPython",
+]
 
 [project.optional-dependencies]
 dev = [
