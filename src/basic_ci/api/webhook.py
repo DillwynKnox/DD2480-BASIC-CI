@@ -6,9 +6,9 @@ router = APIRouter(tags=["webhook"])
 
 @router.post("/webhook")
 def handle_webhook(payload: dict) -> dict[str, str]:
-    """Handle incoming webhook payloads."""
+    """Handle incoming github webhook payloads."""
     print("Received webhook payload:", payload)
-    push_payload = Push_payload(**payload)
+    push_payload = Push_payload.model_validate(payload)
     print("================")
     print(push_payload)
     return {"status": "received"}
