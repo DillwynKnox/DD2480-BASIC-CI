@@ -8,7 +8,7 @@ router = APIRouter(tags=["webhook"])
 def handle_webhook(payload: dict) -> dict[str, str]:
     """Handle incoming webhook payloads."""
     print("Received webhook payload:", payload)
-    push_payload = PushPayload(*payload)
+    push_payload = PushPayload(**payload)
     print("================")
     print(push_payload)
     return {"status": "received"}
