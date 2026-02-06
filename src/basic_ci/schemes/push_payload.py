@@ -75,5 +75,4 @@ class Push_payload(Github_basemodel):
     head_commit: Optional[Head_commit]
 
     pusher: Pusher
-
     sender: Optional[dict]
