@@ -16,6 +16,10 @@ Everytime the pyproject.toml changes run
 ```
 uv sync --extra dev
 ```
+or 
+```
+make setup
+```
 
 
 ## Run development server locally
