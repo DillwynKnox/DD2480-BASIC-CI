@@ -1,6 +1,6 @@
 import subprocess
 from pathlib import Path
-import get_os # This is just our file
+from src import get_os
 
 class Service_command:
     """
