@@ -21,3 +21,6 @@ all: lint test build
 
 dev:
 	uv run fastapi dev src/basic_ci/main.py --host 0.0.0.0 --port 8000
+
+prod:
+	uv run fastapi dev src/basic_ci/main.py --host 0.0.0.0 --port 8009
