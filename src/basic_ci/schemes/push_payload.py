@@ -1,70 +1,78 @@
-from dataclasses import dataclass
+from pydantic import BaseModel, ConfigDict
+from typing import Optional, List
 
-##Useful link:
-##https://docs.github.com/en/webhooks/webhook-events-and-payloads#push
+class Github_basemodel(BaseModel):
+    model_config = ConfigDict(
+        extra="ignore",
+        populate_by_name=True,
+    )
 
-@dataclass
-class Author:
-    date: str
-    email: str | None
+class Github_user(Github_basemodel):
     name: str
-    username: str
+    email: Optional[str]
+    date: Optional[str] = None
 
-@dataclass
-class Commiter:
-    date: str
-    email: str | None
-    name: str
-    username: str
+class Commit_author(Github_user):
+    pass
 
-@dataclass
-class Commit: #Commits
-    added: list[str]
-    author: object | Author
-    commiter: object| Commiter
-    distinct: bool
+
+class Commit_committer(Github_user):
+    pass
+
+class Commit(Github_basemodel):
     id: str
     message: str
-    modified: list[str]
-    removed: list[str]
     timestamp: str
-    tree_id: str
     url: str
-
-@dataclass
-class Head_commit:
-    added: list[str]
-    author: object
-    commiter: object
+    tree_id: str
     distinct: bool
-    id: str
-    message: str
-    modified: list[str]
-    removed: list[str]
-    timestamp: str
-    tree_id: str
+
+    added: List[str]
+    modified: List[str]
+    removed: List[str]
+
+    author: Commit_author
+    committer: Commit_committer
+
+class Head_commit(Commit):
+    pass
+
+class Repository_owner(Github_basemodel):
+    login: str
+    id: int
+
+class Repository(Github_basemodel):
+    id: int
+    node_id: str
+    name: str
+    full_name: str
+    private: bool
+
+    owner: Repository_owner
+
+    html_url: str
+    description: Optional[str]
     url: str
 
-@dataclass
-class Pusher:
-    date: str
-    email: str | None
-    name: str
-    username: str
-    
-@dataclass
-class Push_payload_parameters:
-    after: str
-    base_ref: str | None
+class Pusher(Github_user):
+    pass
+
+
+class Push_payload(Github_basemodel):
+    ref: str
     before: str
-    commits: list[Commit]
-    compare: str
+    after: str
+
     created: bool
     deleted: bool
     forced: bool
-    head_commit: object|Head_commit | None
-    installation: object
-    pusher: object
-    ref: str
-    repository: object
-    sender: object
+
+    base_ref: Optional[str]
+    compare: str
+
+    repository: Repository
+    commits: List[Commit]
+    head_commit: Optional[Head_commit]
+
+    pusher: Pusher
+    sender: Optional[dict]

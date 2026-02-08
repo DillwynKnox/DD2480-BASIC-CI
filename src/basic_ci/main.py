@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from basic_ci.api.system import router as system_router
+from basic_ci.api.webhook import router as webhook_router
 
 app = FastAPI()
 
@@ -9,3 +10,4 @@ def get_root() -> dict[str, str]:
     return {"message": "Basic CI pipeline is running"}
 
 app.include_router(system_router)
+app.include_router(webhook_router)
