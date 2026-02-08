@@ -1,5 +1,8 @@
 import hmac
 import hashlib
+from fastapi import HTTPException,Request, Header
+
+from basic_ci.core.config import settings
 
 class InvalidSignature(Exception):
     pass
@@ -25,3 +28,17 @@ class Signature_verifier:
 
         if not hmac.compare_digest(expected, signature):
             raise InvalidSignature("Signature mismatch")
+        
+async def get_signature_verifier(
+    request: Request, 
+    x_hub_signature_256: str = Header(...)
+):    
+    verifier = Signature_verifier(settings.GITHUB_WEBHOOK_SECRET.encode())
+    
+    body = await request.body()
+    try:
+        verifier.verify_signature(body=body, signature_header=x_hub_signature_256)
+    except InvalidSignature as e:
+        raise HTTPException(status_code=403, detail=str(e))
+    
+    return verifier
