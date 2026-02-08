@@ -39,7 +39,7 @@ make dev
 - **Mohamed Aziz Jribi (jribi)**
 
 
-- **Anton Trappe (trappe)**
+- **Anton Trappe (trappe/DillwynKnox)**
 
 
 - **Yasmine Schüllerqvist (yasmines)**
