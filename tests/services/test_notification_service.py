@@ -2,7 +2,7 @@ from datetime import datetime
 from unittest.mock import patch, MagicMock
 
 from src.basic_ci.services.notification_service import NotificationService
-from src.basic_ci.services.task_result import TaskResult  # si luego lo borras, puedes copiar este dataclass al test
+from src.basic_ci.services.task_result import TaskResult  
 
 
 def test_send_github_status_builds_correct_request():
@@ -28,10 +28,8 @@ def test_send_github_status_builds_correct_request():
 
         service.send_github_status(task_result, context="basic-ci")
 
-        # Assert: called once
         assert post_mock.call_count == 1
 
-        # Inspect call arguments
         args, kwargs = post_mock.call_args
         url = args[0]
         json_payload = kwargs["json"]
