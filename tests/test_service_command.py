@@ -21,4 +21,4 @@ def test_command_error():
     """
     service = ServiceCommand()
     with pytest.raises(subprocess.CalledProcessError):
-        service.run_command(["vs?fwfiVäÅäl"], Path("."))
+        service.run_command(["ls", "/dwdwkdwodkodk"], Path("."))
