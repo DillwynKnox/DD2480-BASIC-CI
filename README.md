@@ -13,7 +13,7 @@ pip install uv
 ```
 
 Everytime the pyproject.toml changes run 
-```
+```bash
 uv sync --extra dev
 ```
 or 
