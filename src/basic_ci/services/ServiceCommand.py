@@ -2,7 +2,8 @@ import subprocess
 from pathlib import Path
 from src import get_os
 
-class Service_command:
+
+class ServiceCommand:
     """
     This service runs a custom command in the folder we're in.
     IN: command (list of str) to run, path (Path)
@@ -13,14 +14,13 @@ class Service_command:
         my_os = get_os.get_os_type()
         os_prefix = get_os.get_terminal_os_command(my_os)
         os_command = os_prefix + command
-
-        try:
-            output = subprocess.run(
-                os_command,
-                cwd=str(path),        
-                capture_output=True,  
-                text=True
-            )
-            return output
-        except Exception as e:
-            raise RuntimeError(f"Failed to run command: {command}") from e
+        
+        output = subprocess.run(
+            os_command,
+            cwd=str(path),        
+            capture_output=True,  
+            text=True,
+            check=True
+        )
+        return output
+        

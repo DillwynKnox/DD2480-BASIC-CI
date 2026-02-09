@@ -1,6 +1,6 @@
 import sys
 
-def get_os_type(_platform=sys.platform): #Do Not remove parameter, it's for testing
+def get_os_type(_platform=sys.platform): 
     """
     Get the type of operating system on this computer
     Thee os HAS to be Windows (use wsl terminal) or Linux or Mac
