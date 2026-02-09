@@ -13,14 +13,14 @@ pip install uv
 ```
 
 Everytime the pyproject.toml changes run 
-```
+```bash
 uv sync --extra dev
 ```
 or 
 ```bash
 make setup
 ```
-
+Then you need to copy the `.env.template` file to a file named just `.env` and fill in the correct values for the Configurations
 
 ## Run development server locally
 To run the development server locally run:
@@ -39,7 +39,7 @@ make dev
 - **Mohamed Aziz Jribi (jribi)**
 
 
-- **Anton Trappe (trappe)**
+- **Anton Trappe (trappe/DillwynKnox)**
 
 
 - **Yasmine Schüllerqvist (yasmines)**
