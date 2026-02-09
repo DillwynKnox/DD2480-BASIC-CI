@@ -1,6 +1,5 @@
 from src.basic_ci.services.ServiceCommand import ServiceCommand
 from pathlib import Path
-from unittest.mock import patch
 import pytest
 import subprocess
 
