@@ -8,7 +8,7 @@ class InvalidSignature(Exception):
     pass
 
 class Signature_verifier:
-    def __init__(self, settings: Settings = Depends(get_settings)):
+    def __init__(self, settings: Settings):
         self.settings = settings
     def verify_signature(
             self,
@@ -30,9 +30,10 @@ class Signature_verifier:
         
 async def get_signature_verifier(
     request: Request, 
-    x_hub_signature_256: str = Header(...)
+    x_hub_signature_256: str = Header(...),
+    settings: Settings = Depends(get_settings)
 ):    
-    verifier = Signature_verifier()
+    verifier = Signature_verifier(settings=settings)
     
     body = await request.body()
     try:
