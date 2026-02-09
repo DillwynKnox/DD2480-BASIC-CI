@@ -1,16 +1,15 @@
 import hmac
 import hashlib
-from fastapi import HTTPException,Request, Header
+from fastapi import HTTPException,Request, Header, Depends
 
-from basic_ci.core.config import settings
+from basic_ci.core.config import Settings, get_settings
 
 class InvalidSignature(Exception):
     pass
 
 class Signature_verifier:
-    def __init__(self, secret: bytes):
-        self.secret = secret
-
+    def __init__(self, settings: Settings = Depends(get_settings)):
+        self.settings = settings
     def verify_signature(
             self,
             *,
@@ -23,7 +22,7 @@ class Signature_verifier:
             raise InvalidSignature("Malformed signature")
         if algo != "sha256":
             raise InvalidSignature("Unsupported algorithm")
-        mac = hmac.new(self.secret, body, hashlib.sha256)
+        mac = hmac.new(self.settings.GITHUB_WEBHOOK_SECRET.encode(), body, hashlib.sha256)
         expected = mac.hexdigest()
 
         if not hmac.compare_digest(expected, signature):
@@ -33,7 +32,7 @@ async def get_signature_verifier(
     request: Request, 
     x_hub_signature_256: str = Header(...)
 ):    
-    verifier = Signature_verifier(settings.GITHUB_WEBHOOK_SECRET.encode())
+    verifier = Signature_verifier()
     
     body = await request.body()
     try:
