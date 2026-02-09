@@ -65,7 +65,6 @@ def test_handle_webhook_invalid_signature():
 def test_handle_valid_webhook_with_valid_signature():
     """A valid signature should allow the webhook to be processed."""
     mock_verifier_instance = MagicMock()
-    
     app.dependency_overrides[get_signature_verifier] = lambda: mock_verifier_instance
 
     payload = load_json("webhook.json")
