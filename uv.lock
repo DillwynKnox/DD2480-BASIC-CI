@@ -42,6 +42,7 @@ dependencies = [
     { name = "gitpython" },
     { name = "pydantic" },
     { name = "requests" },
+    { name = "gitpython" },
 ]
 
 [package.optional-dependencies]
@@ -55,6 +56,7 @@ requires-dist = [
     { name = "fastapi", extras = ["standard"] },
     { name = "gitpython" },
     { name = "pydantic" },
+    { name = "gitpython" },
     { name = "pytest", marker = "extra == 'dev'" },
     { name = "requests" },
     { name = "ruff", marker = "extra == 'dev'" },
