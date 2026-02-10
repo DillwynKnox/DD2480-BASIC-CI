@@ -1,0 +1,9 @@
+project: Basic CI Pipeline
+stages:
+  - stage: setup
+    command: echo "Setting up the environment..."
+  
+  - stage: test
+
+  - stage: build
+    command: echo "Building the project..."

@@ -25,7 +25,7 @@ def get_terminal_os_command(operating_system):
     if operating_system == "Windows":
         return ["wsl"]
     elif operating_system == "Linux":
-        return ["/bin/bash"]
+        return []
     elif operating_system == "Mac":
         return ["/bin/zsh"]
     else:

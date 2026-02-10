@@ -1,5 +1,6 @@
 import subprocess
 from pathlib import Path
+
 from basic_ci import get_os
 
 
@@ -20,7 +21,7 @@ class ServiceCommand:
             cwd=str(path),        
             capture_output=True,  
             text=True,
-            check=True
+            check=False
         )
         return output
         
