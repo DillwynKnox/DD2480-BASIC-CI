@@ -1,8 +1,8 @@
 from datetime import datetime
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
-from src.basic_ci.services.notification_service import NotificationService
-from src.basic_ci.services.task_result import TaskResult  
+from basic_ci.services.notification_service import NotificationService
+from basic_ci.services.TaskResult import TaskResult
 
 
 def test_send_github_status_builds_correct_request():
@@ -14,14 +14,14 @@ def test_send_github_status_builds_correct_request():
         branch="assessment",
         commit_sha="0123456789abcdef0123456789abcdef01234567",
         status="success",
-        started_at=datetime.utcnow(),
-        finished_at=datetime.utcnow(),
+        started_at=datetime.now(),
+        finished_at=datetime.now(),
         summary="All steps succeeded",
         details_url="https://example.com/builds/abc123",
         commands=[],
     )
 
-    with patch("src.basic_ci.services.notification_service.requests.post") as post_mock:
+    with patch("basic_ci.services.notification_service.requests.post") as post_mock:
         fake_resp = MagicMock()
         fake_resp.raise_for_status.return_value = None
         post_mock.return_value = fake_resp

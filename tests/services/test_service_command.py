@@ -1,7 +1,9 @@
-from src.basic_ci.services.ServiceCommand import ServiceCommand
-from pathlib import Path
-import pytest
 import subprocess
+from pathlib import Path
+
+import pytest
+from basic_ci.services.ServiceCommand import ServiceCommand
+
 
 def test_run_echo_command():
     """

@@ -2,12 +2,12 @@ import json
 from pathlib import Path
 from unittest.mock import MagicMock
 
-from fastapi import FastAPI, HTTPException
+import pytest
+from fastapi import HTTPException
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
-import pytest
 
-from basic_ci.core.signature import InvalidSignature, get_signature_verifier
+from basic_ci.core.signature import get_signature_verifier
 from basic_ci.main import app
 
 client = TestClient(app)
@@ -24,10 +24,9 @@ import json
 from pathlib import Path
 from unittest.mock import MagicMock
 
-from fastapi import FastAPI
+import pytest
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
-import pytest
 
 from basic_ci.core.signature import get_signature_verifier
 from basic_ci.main import app

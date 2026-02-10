@@ -1,5 +1,7 @@
+from typing import List, Optional
+
 from pydantic import BaseModel, ConfigDict
-from typing import Optional, List
+
 
 class Github_basemodel(BaseModel):
     model_config = ConfigDict(
