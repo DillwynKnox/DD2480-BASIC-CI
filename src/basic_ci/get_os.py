@@ -1,5 +1,6 @@
 import sys
 
+
 def get_os_type(_platform=sys.platform): 
     """
     Get the type of operating system on this computer

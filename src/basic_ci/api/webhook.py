@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from fastapi.params import Depends, Header
+from fastapi.params import Depends
 
 from basic_ci.core.signature import Signature_verifier, get_signature_verifier
 from basic_ci.schemes.push_payload import Push_payload

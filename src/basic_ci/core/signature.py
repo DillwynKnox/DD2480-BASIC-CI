@@ -1,8 +1,10 @@
-import hmac
 import hashlib
-from fastapi import HTTPException,Request, Header, Depends
+import hmac
+
+from fastapi import Depends, Header, HTTPException, Request
 
 from basic_ci.core.config import Settings, get_settings
+
 
 class InvalidSignature(Exception):
     pass

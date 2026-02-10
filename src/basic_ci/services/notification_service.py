@@ -1,6 +1,7 @@
+
 import requests
-from typing import Optional
-from src.basic_ci.services.TaskResult import TaskResult
+
+from basic_ci.services.TaskResult import TaskResult
 
 
 class NotificationService:

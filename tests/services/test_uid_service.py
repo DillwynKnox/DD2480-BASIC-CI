@@ -1,5 +1,4 @@
-from src.basic_ci.services.id_service import UIDService
-
+from basic_ci.services.id_service import UIDService
 
 
 def test_generate_run_id_is_unique():

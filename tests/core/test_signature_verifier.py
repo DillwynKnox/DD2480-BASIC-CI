@@ -1,9 +1,10 @@
-import pytest
-import hmac
 import hashlib
+import hmac
+
+import pytest
 
 from basic_ci.core.config import Settings
-from basic_ci.core.signature import Signature_verifier, InvalidSignature
+from basic_ci.core.signature import InvalidSignature, Signature_verifier
 
 """
 Constants used for testing
