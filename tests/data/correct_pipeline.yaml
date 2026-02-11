@@ -1,0 +1,4 @@
+project: unittest
+stages:
+  - stage: setup
+    command: echo "Setting up the environment..."
