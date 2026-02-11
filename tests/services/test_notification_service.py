@@ -2,7 +2,7 @@ from datetime import datetime
 from unittest.mock import MagicMock, patch
 
 from basic_ci.services.notification_service import NotificationService
-from basic_ci.services.TaskResult import TaskResult
+from basic_ci.schemes.TaskResult import TaskResult
 
 
 def test_send_github_status_builds_correct_request():

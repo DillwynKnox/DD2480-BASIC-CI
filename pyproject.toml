@@ -26,6 +26,7 @@ dependencies = [
 dev = [
     "pytest",
     "ruff",
+    "mypy",
     ]
 
 [tool.hatch.build.targets.wheel]

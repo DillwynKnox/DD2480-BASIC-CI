@@ -1,9 +1,8 @@
-from pathlib import Path
 import pytest
 
-from basic_ci.services.task_service import TaskService
+from basic_ci.schemes.push_payload import Push_payload
 from basic_ci.services.id_service import UIDService
-from basic_ci.schemes.push_payload import Push_payload 
+from basic_ci.services.task_service import TaskService
 
 
 class MockUIDService(UIDService):

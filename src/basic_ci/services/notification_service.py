@@ -1,7 +1,8 @@
 
 import requests
 
-from basic_ci.services.TaskResult import TaskResult
+from basic_ci.core.config import Settings, get_settings
+from basic_ci.schemes.TaskResult import TaskResult
 
 
 class NotificationService:
@@ -78,3 +79,13 @@ class NotificationService:
 
         owner, repo = path.split("/", 1)
         return owner, repo
+
+def get_NotificationService(settings: Settings = get_settings())-> NotificationService:
+    """
+    Factory for Notification Service    
+    :param settings: the general Config
+    :type settings: Settings
+    :return: a new instance of Settings 
+    :rtype: NotificationService
+    """
+    return NotificationService()
