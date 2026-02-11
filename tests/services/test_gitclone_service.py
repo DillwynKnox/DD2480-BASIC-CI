@@ -12,12 +12,10 @@ def test_clone_repo_calls_git_correctly():
         mock_repo_class.clone_from.return_value = mock_repo_instance
 
         service = GitcloneService(
-            repo_url="https://github.com/example/fakerepo.git",
-            head_commit_hash="123456",
-            directory="/fake/repo",
-        )
+            repo_url="https://github.com/example/fakerepo.git")
 
-        service.clone_repo()
+        service.clone_repo(head_commit_hash="123456",
+            directory="/fake/repo")
 
         mock_repo_class.clone_from.assert_called_once_with(
             "https://github.com/example/fakerepo.git",
