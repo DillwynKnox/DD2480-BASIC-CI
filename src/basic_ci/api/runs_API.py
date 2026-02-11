@@ -5,12 +5,22 @@ from basic_ci.services.dummy_database_service import DummyDatabaseService
 from basic_ci.services.TaskResult import TaskResult
 
 router = APIRouter()
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="src/basic_ci/templates")
 
 # Dummy DB instance (mockable / replaceable later)
 db = DummyDatabaseService()
 
+def seed_dummy_data() -> None:
+    dummy = TaskResult(
+        run_id="demo-run-123",
+        repo_url="https://github.com/DD2480-BASIC-CI",
+        branch="assessment",
+        commit_sha="0123456789abcdef0123456789abcdef01234567",
+        status="success",
+    )
+    db.save(dummy)
 
+seed_dummy_data()
 
 @router.get("/runs/{run_id}")
 def run_details_page(request: Request, run_id: str):
