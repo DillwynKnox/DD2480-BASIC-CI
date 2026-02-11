@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Pipeline Run {{ run.run_id }}</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; max-width: 800px; }
+      .row { margin: 8px 0; }
+      .label { font-weight: bold; display: inline-block; width: 140px; }
+      .status { padding: 3px 10px; border-radius: 999px; display: inline-block; }
+      .success { background: #d4edda; }
+      .failure { background: #f8d7da; }
+      .pending { background: #fff3cd; }
+      .error   { background: #f5c6cb; }
+      code { background: #f6f8fa; padding: 2px 6px; border-radius: 6px; }
+    </style>
+  </head>
+
+  <body>
+    <h1>Pipeline Run</h1>
+
+    <div class="card">
+      <div class="row"><span class="label">Run ID:</span> <code>{{ run.run_id }}</code></div>
+      <div class="row"><span class="label">Repo:</span> {{ run.repo_url }}</div>
+      <div class="row"><span class="label">Branch:</span> <code>{{ run.branch }}</code></div>
+      <div class="row"><span class="label">Commit SHA:</span> <code>{{ run.commit_sha }}</code></div>
+
+      <div class="row">
+        <span class="label">Status:</span>
+        <span class="status {{ run.status }}">{{ run.status }}</span>
+      </div>
+
+      {% if run.started_at %}
+      <div class="row"><span class="label">Started:</span> {{ run.started_at }}</div>
+      {% endif %}
+
+      {% if run.finished_at %}
+      <div class="row"><span class="label">Finished:</span> {{ run.finished_at }}</div>
+      {% endif %}
+    </div>
+
+    <p style="margin-top: 16px;">
+      Tip: Try <code>/runs/demo-run-123</code> to see the seeded example.
+    </p>
+  </body>
+</html>
