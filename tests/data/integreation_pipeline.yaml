@@ -1,0 +1,10 @@
+project: integreation_test
+stages:
+  - stage: setup
+    command: make setup
+  - stage: .env copy
+    command: cp .env.template .env
+  - stage: run tests
+    command: make test
+  - stage: build
+    command: make build

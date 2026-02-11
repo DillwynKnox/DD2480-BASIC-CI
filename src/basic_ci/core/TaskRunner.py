@@ -1,18 +1,22 @@
 import tempfile
 from datetime import datetime
 from pathlib import Path
+from typing import Optional
 
 from basic_ci.core.config import Settings, get_settings
 from basic_ci.schemes.task import Task
 from basic_ci.schemes.TaskResult import TaskResult
 from basic_ci.services.file_service import FileService, get_FileService
-from basic_ci.services.gitclone_service import GitcloneService
+from basic_ci.services.gitclone_service import GitcloneService, get_GitCloneService
 from basic_ci.services.notification_service import (
     NotificationService,
     get_NotificationService,
 )
-from basic_ci.services.pipeline_stage_service import Pipeline_stage_service
-from basic_ci.services.ServiceCommand import ServiceCommand
+from basic_ci.services.pipeline_stage_service import (
+    Pipeline_stage_service,
+    get_Pipeline_stage_service,
+)
+from basic_ci.services.ServiceCommand import ServiceCommand, get_ServiceCommand
 
 """
 - Get Task Object from Task Service
@@ -43,18 +47,18 @@ class TaskRunner:
         started_at = datetime.now()
 
         temp_dir = Path(tempfile.gettempdir())
-        task_folder = self.file_service.create_folder(temp_dir / task.commit_sha)
+        task_folder = self.file_service.create_folder(temp_dir / task.run_id)
         
         self.git_service.clone_repo(task.commit_sha, task_folder)
 
         try:
             stage_results = self.pipeline_stage_service.run_stages(task_folder)
         except FileNotFoundError as e:
-            stage_result=[]
+            stage_results=[]
             status = "failure"
             summary = f"pipeline.yaml not found: {e}"
         except ValueError as e:
-            stage_result=[]
+            stage_results=[]
             status = "failure"
             summary = f"pipeline.yaml contains erros: {e}"
 
@@ -64,12 +68,12 @@ class TaskRunner:
                 summary = f" Stage {stage_result.name} failed"
                 break
         else:
-            if len(stage_result):
+            if len(stage_results):
                 status = "success"
                 summary = "pipeline ran without errors"
 
         if temp_dir.exists():
-            self.file_service.delete_folder(temp_dir) 
+            self.file_service.delete_folder(task_folder) 
 
         finished_at = datetime.now()
         task_result = TaskResult(
@@ -80,7 +84,7 @@ class TaskRunner:
             status = status,
             started_at=started_at,
             finished_at=finished_at,
-            stages = stage_result,
+            stages = stage_results,
             summary=summary
             )
         
@@ -88,7 +92,7 @@ class TaskRunner:
         self.notification_service.send_github_status(task_result)
         return task_result
 
-def get_TaskRunner(settings:Settings = get_settings()) -> TaskRunner:
+def get_TaskRunner(settings:Settings = get_settings(),notification_service:Optional[NotificationService]=None) -> TaskRunner:
     """
     Factory for TaskRunner
     
@@ -98,5 +102,11 @@ def get_TaskRunner(settings:Settings = get_settings()) -> TaskRunner:
     :returns TaskRunner
     """
     fileService = get_FileService()
-    command_service = get_FileService()
-    notification_service = get_NotificationService()
+    command_service = get_ServiceCommand()
+    git_service = get_GitCloneService(settings=settings)
+    pipeline_stage_service = get_Pipeline_stage_service(settings= settings)
+    if notification_service is None:
+        notification_service = get_NotificationService(settings=settings)
+    return TaskRunner(file_service=fileService,service_command=command_service, notification_service=notification_service, git_service=git_service, pipeline_stage_service=pipeline_stage_service)
+
+    

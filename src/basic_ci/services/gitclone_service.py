@@ -1,4 +1,6 @@
-from git import Repo  #  git = gitPython package
+from git import Repo
+
+from basic_ci.core.config import Settings, get_settings  #  git = gitPython package
 
 
 class GitcloneService:
@@ -14,4 +16,12 @@ class GitcloneService:
         repo.git.checkout(head_commit_hash)
 
     
-    
+def get_GitCloneService(settings:Settings = get_settings()) -> GitcloneService:
+    """
+    Factory for Gitclone Service    
+    :param settings: Description
+    :type settings: Settings
+    :return: Description
+    :rtype: GitcloneService
+    """
+    return GitcloneService(settings.REPO_URL)

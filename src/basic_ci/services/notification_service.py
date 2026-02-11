@@ -88,5 +88,4 @@ def get_NotificationService(settings: Settings = get_settings())-> NotificationS
     :return: a new instance of Settings 
     :rtype: NotificationService
     """
-    
-    return NotificationService()
+    return NotificationService(settings.GITHUB_TOKEN)
