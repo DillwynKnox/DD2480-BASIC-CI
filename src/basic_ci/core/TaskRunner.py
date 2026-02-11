@@ -2,10 +2,9 @@ import tempfile
 from datetime import datetime
 from pathlib import Path
 
-from basic_ci.schemes.TaskResult import TaskResult
-
 from basic_ci.core.config import Settings, get_settings
 from basic_ci.schemes.task import Task
+from basic_ci.schemes.TaskResult import TaskResult
 from basic_ci.services.file_service import FileService, get_FileService
 from basic_ci.services.gitclone_service import GitcloneService
 from basic_ci.services.notification_service import (

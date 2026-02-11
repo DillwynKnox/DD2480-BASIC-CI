@@ -13,8 +13,7 @@ class Pipeline_stage_service:
         self.command_service = command_service
         self.pipeline_config_service = pipeline_config_service
 
- 
-    def run_stage(self,stage: Stage, path:str)->Stage_result:
+    def run_stage(self,stage: Stage, path:str | Path)->Stage_result:
         """
         This runs a stage in the pipeline, which is a command.
         """
@@ -26,7 +25,7 @@ class Pipeline_stage_service:
             output=result.stdout + result.stderr
         )
     
-    def run_stages(self,path:str) -> List[Stage_result]:
+    def run_stages(self,path:str | Path) -> List[Stage_result]:
         """
         This gets the stages from the pipeline and runs them.
         """
