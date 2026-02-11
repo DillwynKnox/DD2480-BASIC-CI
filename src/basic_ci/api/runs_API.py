@@ -12,7 +12,6 @@ db = DummyDatabaseService()
 
 
 
-
 @router.get("/runs/{run_id}")
 def run_details_page(request: Request, run_id: str):
     task_result = db.get_task_result(run_id)
