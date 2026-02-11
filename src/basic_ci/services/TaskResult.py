@@ -5,6 +5,9 @@ from typing import List, Optional
 
 @dataclass
 class CommandResult:
+    """
+    Used to store output from ServiceCommand.run_command().  
+    """
     name: str
     exit_code: int
     stdout: str = ""
@@ -13,6 +16,11 @@ class CommandResult:
 
 @dataclass
 class TaskResult:
+    """
+    Stores relevant information related to a specific run of the CI server.
+    Used by NotificationService.send_github_status() to send information to github.
+    """
+    
     run_id: str
     repo_url: str
     branch: str
