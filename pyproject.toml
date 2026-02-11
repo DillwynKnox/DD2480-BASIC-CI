@@ -27,6 +27,8 @@ dev = [
     "pytest",
     "ruff",
     "mypy",
+    "types-requests",
+    "types-PyYAML",
     ]
 
 [tool.hatch.build.targets.wheel]
