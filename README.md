@@ -1,4 +1,4 @@
-# Basic CIIIIIIIIIIIIIIIIIIIIIIIIIIII
+# Basic CIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
 ## Repository Structure
 `src/` is for the actual code `test` is for the tests.
