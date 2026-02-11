@@ -1,8 +1,6 @@
 import subprocess
 from pathlib import Path
 
-from basic_ci import get_os
-
 
 class ServiceCommand:
     """
@@ -11,17 +9,16 @@ class ServiceCommand:
     OUT: CompletedProcess object with args, returncode, stdout, stderr
     """
 
-    def run_command(self, command: list[str], path: Path):
-        my_os = get_os.get_os_type()
-        os_prefix = get_os.get_terminal_os_command(my_os)
-        os_command = os_prefix + command
+    def run_command(self, command: list[str], path: Path) -> subprocess.CompletedProcess:
+        command_str = " ".join(command) # To make command format compatible with shell=True 
         
         output = subprocess.run(
-            os_command,
+            command_str,
             cwd=str(path),        
             capture_output=True,  
             text=True,
-            check=False
+            check=False,
+            shell=True, # subprocess will get the correct shell for the correct OS, making get_OS redundant
         )
         return output
         
