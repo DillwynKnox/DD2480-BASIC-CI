@@ -3,11 +3,12 @@ import pytest
 
 from basic_ci.services.task_service import TaskService
 from basic_ci.services.id_service import UIDService
+from basic_ci.schemes.push_payload import Push_payload 
 
 
-class FakeUIDService(UIDService):
+class MockUIDService(UIDService):
     """
-    FakeUIDService overrides run id generation to return a stable value for tests.
+    MockUIDService overrides run id generation to return a stable value for tests.
     """
     def generate_run_id(self, commit_hash=None, length=24) -> str:
         return f"run-{commit_hash}"
@@ -43,6 +44,12 @@ def _minimal_push_payload(ref: str = "refs/heads/main", after: str = "abc123") -
         "pusher": {"name": "alice", "email": None, "date": None},
         "sender": None,
     }
+def _minimal_push_payload_obj(ref: str = "refs/heads/main", after: str = "abc123") -> Push_payload:
+    """
+    Returns the smallest valid Push_payload object for testing.
+    """
+    dict_payload = _minimal_push_payload(ref=ref, after=after)
+    return Push_payload.model_validate(dict_payload)
 
 
 def test_create_task():
@@ -56,10 +63,10 @@ def test_create_task():
     
     :return: None
     """
-    uid = FakeUIDService()
+    uid = MockUIDService()
     service = TaskService(uid)
 
-    payload = _minimal_push_payload(ref="refs/heads/main", after="deadbeef")
+    payload = _minimal_push_payload_obj(ref="refs/heads/main", after="deadbeef")
     task = service.create_task(payload)
 
     assert task.run_id == "run-deadbeef"
@@ -80,10 +87,10 @@ def test_create_task_supports_nested_branch_names():
     
     :return: None
     """
-    uid = FakeUIDService()
+    uid = MockUIDService()
     service = TaskService(uid)
 
-    payload = _minimal_push_payload(ref="refs/heads/feature/x", after="abc123")
+    payload = _minimal_push_payload_obj(ref="refs/heads/feature/x", after="abc123")
     task = service.create_task(payload)
 
     assert task.branch == "feature/x"
@@ -101,10 +108,10 @@ def test_extract_branch_raises_on_non_head_ref():
     
     :return: None
     """
-    uid = FakeUIDService()
+    uid = MockUIDService()
     service = TaskService(uid)
 
-    payload = _minimal_push_payload(ref="refs/tags/v1.0.0", after="abc123")
+    payload = _minimal_push_payload_obj(ref="refs/tags/v1.0.0", after="abc123")
 
     with pytest.raises(ValueError):
         service.create_task(payload)
@@ -119,10 +126,10 @@ def test_task_is_immutable():
     
     :return: None
     """
-    uid = FakeUIDService()
+    uid = MockUIDService()
     service = TaskService(uid)
     
-    payload = _minimal_push_payload()
+    payload = _minimal_push_payload_obj()
     task = service.create_task(payload)
     
     # Should fail because Task is frozen
@@ -142,7 +149,7 @@ def test_extract_branch_various_formats():
     
     :return: None
     """
-    uid = FakeUIDService()
+    uid = MockUIDService()
     service = TaskService(uid)
     
     test_cases = [
@@ -154,7 +161,7 @@ def test_extract_branch_various_formats():
     ]
     
     for ref, expected in test_cases:
-        payload = _minimal_push_payload(ref=ref)
+        payload = _minimal_push_payload_obj(ref=ref)
         task = service.create_task(payload)
         assert task.branch == expected, f"Failed for ref: {ref}"
 
@@ -171,10 +178,10 @@ def test_create_task_without_head_commit():
     
     :return: None
     """
-    uid = FakeUIDService()
+    uid = MockUIDService()
     service = TaskService(uid)
     
-    payload = _minimal_push_payload(after="sha_without_head_commit")
+    payload = _minimal_push_payload_obj(after="sha_without_head_commit")
     # head_commit is already None in our helper
     task = service.create_task(payload)
     
@@ -194,15 +201,15 @@ def test_unique_run_ids_for_different_commits():
     
     :return: None
     """
-    uid = FakeUIDService()
+    uid = MockUIDService()
     service = TaskService(uid)
     
     # First task
-    payload1 = _minimal_push_payload(after="commit_abc")
+    payload1 = _minimal_push_payload_obj(after="commit_abc")
     task1 = service.create_task(payload1)
     
     # Second task with different commit
-    payload2 = _minimal_push_payload(after="commit_def")
+    payload2 = _minimal_push_payload_obj(after="commit_def")
     task2 = service.create_task(payload2)
     
     assert task1.run_id == "run-commit_abc"

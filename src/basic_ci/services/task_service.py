@@ -1,22 +1,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
 
 from basic_ci.schemes.push_payload import Push_payload
 from basic_ci.services.id_service import UIDService
-
-
-@dataclass(frozen=True)
-class Task:
-    """
-    Task represents a single CI run created from a GitHub webhook payload.
-    It contains all information required by the TaskRunner to execute the CI pipeline.
-    """
-    run_id: str
-    repo_url: str
-    branch: str
-    commit_sha: str
+from basic_ci.schemes.task import Task
 
 
 class TaskService:
@@ -34,21 +22,19 @@ class TaskService:
         """
         self.uid_service = uid_service
 
-    def create_task(self, payload: dict[str, Any]) -> Task:
+    def create_task(self, payload: Push_payload) -> Task:
         """
         create_task validates a webhook payload and converts it into a Task object.
 
-        :param payload: GitHub webhook JSON payload
+        :param payload: Validated Push_payload object from GitHub webhook
         :return: Task object containing run_id, repo_url, branch, commit_sha
         :raises ValueError: If the payload is invalid or missing required fields
         """
-        # Validate & parse payload using Pydantic
-        pp = Push_payload.model_validate(payload)
+        
 
-        branch = self._extract_branch(pp.ref)
-        commit_sha = pp.after
-        repo_url = self._extract_repo_url(pp)
-
+        branch = self._extract_branch(payload.ref)
+        commit_sha = payload.after
+        repo_url = self._extract_repo_url(payload)
         run_id = self.uid_service.generate_run_id(commit_hash=commit_sha)
 
         return Task(
