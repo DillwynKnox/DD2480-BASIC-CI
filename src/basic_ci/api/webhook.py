@@ -15,5 +15,6 @@ def handle_webhook(
         ) -> dict[str, str]:
     """Verifyies Signature and extract payload from incoming github webhook payloads."""
     push_payload = Push_payload.model_validate(payload)
+    print(f"Received webhook for repo: {push_payload.repo_url}, commit: {push_payload.commit_sha}")
     result = task_service.run_task(push_payload)
     return result
