@@ -1,7 +1,5 @@
-import subprocess
 from pathlib import Path
 
-import pytest
 from basic_ci.services.ServiceCommand import ServiceCommand
 
 
@@ -22,5 +20,6 @@ def test_command_error():
     OUT: CalledProcessError
     """
     service = ServiceCommand()
-    with pytest.raises(subprocess.CalledProcessError):
-        service.run_command(["vs?fwfiVäÅäl"], Path("."))
+    result =service.run_command(["vs?fwfiVäÅäl"], Path("."))
+    assert result.returncode != 0  # Non-zero means error
+    assert result.stderr != ""  # There should be an error message in stderr
