@@ -5,7 +5,7 @@ class GitcloneService:
     """
     Clones a repo into a directory and checks out given commit.
     """
-    def __init__(self, repo_url: str):
+    def __init__(self, repo_url: str) -> None:
         """
         Initialize the GitcloneService with a repository URL.
 
@@ -21,7 +21,7 @@ class GitcloneService:
         """
         self.repo_url = repo_url
     
-    def clone_repo(self, head_commit_hash: str, directory: str):
+    def clone_repo(self, head_commit_hash: str, directory: str) -> None:
         """
         Clone the repository and checkout a specific commit.
 

@@ -2,7 +2,10 @@ project: Basic CI Pipeline
 stages:
   - stage: setup
     command: echo "Setting up the environment..."
-  
+    
+  - stage: static_check
+    command: python -m compileall src
+
   - stage: test
     command: echo "Running tests..."
 

@@ -1,9 +1,10 @@
 import logging
 from pathlib import Path
+from typing import Union
 
 
 class LoggerService:
-    def __init__(self, log_dir: str | Path = "logs", level=logging.INFO):
+    def __init__(self, log_dir: Union[str, Path] = "logs", level: int = logging.INFO) -> None:
         """
         Initialize the LoggerService with a log directory and logging level.
 

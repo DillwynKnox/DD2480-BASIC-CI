@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 class FileService:
-    def __init__(self, base_workspace: str | Path | None = None):
+    def __init__(self, base_workspace: str | Path | None = None) -> None:
         """
         Initialize the FileService with an optional base workspace.
 
@@ -20,7 +20,7 @@ class FileService:
         """
         self.base_workspace = Path(base_workspace).resolve() if base_workspace else None
 
-    def _safe_path(self, path: str | Path):
+    def _safe_path(self, path: str | Path) -> Path:
         """
         Validate and normalize a path to ensure it is inside the base workspace.
 
@@ -45,7 +45,7 @@ class FileService:
             )
         return p
 
-    def create_folder(self, path: str | Path):
+    def create_folder(self, path: str | Path) -> Path:
         """
         Create a directory at the specified path.
 
@@ -67,7 +67,7 @@ class FileService:
         p.mkdir(parents=True, exist_ok=True)
         return p
 
-    def delete_folder(self, path: str | Path):
+    def delete_folder(self, path: str | Path) -> None:
         """
         Delete a directory and all its contents recursively.
 
@@ -89,7 +89,7 @@ class FileService:
         if p.exists() and p.is_dir():
             shutil.rmtree(p)
 
-    def copy_file(self, source: str | Path, destination: str | Path):
+    def copy_file(self, source: str | Path, destination: str | Path) -> None:
         """
         Copy a single file from a source path to a destination path.
 
@@ -122,7 +122,7 @@ class FileService:
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
 
-    def copy_directory(self, source: str | Path, destination: str | Path):
+    def copy_directory(self, source: str | Path, destination: str | Path) -> None:
         """
         Copy a directory and all of its contents recursively.
 
