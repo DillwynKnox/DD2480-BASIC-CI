@@ -1,4 +1,4 @@
-from git import Repo #  git = gitPython package
+from git import Repo  #  git = gitPython package
 
 
 class GitcloneService:

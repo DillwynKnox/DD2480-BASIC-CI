@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-
 from basic_ci.schemes.push_payload import Push_payload
-from basic_ci.services.id_service import UIDService
 from basic_ci.schemes.task import Task
+from basic_ci.services.id_service import UIDService
 
 
 class TaskService:
