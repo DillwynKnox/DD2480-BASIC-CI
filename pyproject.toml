@@ -26,6 +26,7 @@ dependencies = [
 dev = [
     "pytest",
     "ruff",
+    "mypy",
     ]
 
 [tool.hatch.build.targets.wheel]
@@ -61,3 +62,37 @@ ban-relative-imports = "all"
 
 [tool.ruff.lint.flake8-tidy-imports.banned-api]
 "src".msg = "Do not import from 'src'. Use the package name directly (e.g., 'from my_api import ...')."
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_any_unimported = false
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+check_untyped_defs = true
+show_error_codes = true
+ignore_missing_imports = true
+follow_imports = "silent"
+strict = false
+
+[[tool.mypy.overrides]]
+module = [
+    "tests.*",
+    "*/tests/*",
+    "test_*.py"
+]
+disallow_untyped_defs = false
+ignore_errors = false
+
+[[tool.mypy.overrides]]
+module = [
+    "*/__init__.py",
+    "__init__.py"
+]
+disallow_untyped_defs = false
