@@ -53,7 +53,6 @@ def test_task_runner_full_integration(integration_task, integreation_settings):
       
         mock_notification.send_github_status.assert_called_once()    
     finally:
-        # Safety cleanup: check if the folder was actually deleted by the service
         temp_path = Path(f"/tmp/{integration_task.run_id}")
         if temp_path.exists():
             shutil.rmtree(temp_path)
