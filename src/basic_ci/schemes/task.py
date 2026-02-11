@@ -1,9 +1,12 @@
-
 from dataclasses import dataclass
 
-
-@dataclass
+@dataclass(frozen=True)
 class Task:
-    task_id: str
-    head_commit: str
-    after_commit: str
+    """
+    Task represents a single CI run created from a GitHub webhook payload.
+    It contains all information required by the TaskRunner to execute the CI pipeline.
+    """
+    run_id: str
+    repo_url: str
+    branch: str
+    commit_sha: str
