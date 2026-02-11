@@ -1,7 +1,7 @@
 
 import requests
 
-from basic_ci.services.TaskResult import TaskResult
+from basic_ci.schemes.TaskResult import TaskResult
 
 
 class NotificationService:
