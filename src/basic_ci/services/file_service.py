@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 class FileService:
-    def __init__(self, base_workspace: str | Path | None = None):
+    def __init__(self, base_workspace: str | Path | None = None) -> None:
         """
         __init__ initializes the FileService with an optional base workspace.
         If a base workspace is provided, all filesystem operations are restricted
@@ -15,7 +15,7 @@ class FileService:
         """
         self.base_workspace = Path(base_workspace).resolve() if base_workspace else None
 
-    def _safe_path(self, path: str | Path):
+    def _safe_path(self, path: str | Path) -> Path:
         """
         _safe_path validates and normalizes a path to ensure it is located inside
         the configured base workspace. The path is resolved to an absolute path
@@ -32,7 +32,7 @@ class FileService:
             )
         return p
 
-    def create_folder(self, path: str | Path):
+    def create_folder(self, path: str | Path) -> Path:
         """
         create_folder creates a directory at the given path.
         If the directory already exists, the function does nothing and does not
@@ -46,7 +46,7 @@ class FileService:
         p.mkdir(parents=True, exist_ok=True)
         return p
 
-    def delete_folder(self, path: str | Path):
+    def delete_folder(self, path: str | Path) -> None:
         """
         delete_folder deletes a directory recursively, including all files and
         subdirectories, if the directory exists. The deletion is only allowed
@@ -60,7 +60,7 @@ class FileService:
         if p.exists() and p.is_dir():
             shutil.rmtree(p)
 
-    def copy_file(self, source: str | Path, destination: str | Path):
+    def copy_file(self, source: str | Path, destination: str | Path) -> None:
         """
         copy_file copies a single file from a source path to a destination path.
         Parent directories of the destination are created automatically if needed.
@@ -84,7 +84,7 @@ class FileService:
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
 
-    def copy_directory(self, source: str | Path, destination: str | Path):
+    def copy_directory(self, source: str | Path, destination: str | Path) -> None:
         """
         copy_directory copies a directory and all of its contents recursively
         from a source path to a destination path. The destination path is

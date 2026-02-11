@@ -11,6 +11,10 @@ lint_fix:
 # Run pytest
 test:
 	uv run pytest tests/
+	
+# Run mypy
+typecheck:
+	uv run mypy src/
 
 # Build the project
 build:
