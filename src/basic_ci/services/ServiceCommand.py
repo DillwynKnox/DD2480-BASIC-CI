@@ -1,6 +1,6 @@
 import subprocess
 from pathlib import Path
-from basic_ci import get_os
+
 
 
 class ServiceCommand:
