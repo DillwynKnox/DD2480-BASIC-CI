@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     GITHUB_TOKEN:str
     REPO_URL:str
     SAVE_FOLDER: str
+    RESULTS_URL_TEMPLATE: str = "http://77.42.84.29:8009/results/{run_id}"
     
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 

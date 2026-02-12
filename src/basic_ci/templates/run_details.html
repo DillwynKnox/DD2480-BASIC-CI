@@ -1,47 +1,111 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Pipeline Run {{ run.run_id }}</title>
-    <style>
-      body { font-family: Arial, sans-serif; margin: 24px; }
-      .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; max-width: 800px; }
-      .row { margin: 8px 0; }
-      .label { font-weight: bold; display: inline-block; width: 140px; }
-      .status { padding: 3px 10px; border-radius: 999px; display: inline-block; }
-      .success { background: #d4edda; }
-      .failure { background: #f8d7da; }
-      .pending { background: #fff3cd; }
-      .error   { background: #f5c6cb; }
-      code { background: #f6f8fa; padding: 2px 6px; border-radius: 6px; }
-    </style>
-  </head>
+<head>
+<meta charset="utf-8" />
+<title>Pipeline Run {{ run.run_id }}</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 24px; background: #f5f5f5; }
+.card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; max-width: 900px; background: white; margin-bottom: 16px; }
+.row { margin: 8px 0; }
+.label { font-weight: bold; display: inline-block; width: 140px; }
+.status { padding: 3px 10px; border-radius: 999px; display: inline-block; font-size: 14px; }
+.success { background: #d4edda; color: #155724; }
+.failure { background: #f8d7da; color: #721c24; }
+.pending { background: #fff3cd; color: #856404; }
+.error { background: #f5c6cb; color: #721c24; }
+code { background: #f6f8fa; padding: 2px 6px; border-radius: 6px; font-size: 13px; }
+h2 { margin-top: 24px; font-size: 20px; }
+.stages { margin-top: 20px; }
+.stage { border: 1px solid #e1e4e8; border-radius: 6px; padding: 12px; margin-bottom: 12px; background: #fafbfc; }
+.stage-header { display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+.stage-name { font-weight: 600; font-size: 15px; }
+.stage-status { font-size: 12px; padding: 2px 8px; }
+.stage-command { margin-top: 8px; font-size: 13px; color: #586069; }
+.stage-output { margin-top: 12px; display: none; }
+.stage-output.expanded { display: block; }
+.stage-output pre { 
+  background: #24292e; 
+  color: #e6edf3; 
+  padding: 12px; 
+  border-radius: 6px; 
+  overflow-x: auto; 
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+}
+.toggle-icon { 
+  font-size: 12px; 
+  color: #586069; 
+  user-select: none;
+}
+.summary { 
+  background: #f6f8fa; 
+  padding: 12px; 
+  border-radius: 6px; 
+  margin-top: 16px;
+  font-style: italic;
+  color: #24292e;
+}
+</style>
+</head>
+<body>
+<h1>Pipeline Run {{ run.run_id }}</h1>
+<div class="card">
+<div class="row"><span class="label">Run ID:</span> <code>{{ run.run_id }}</code></div>
+<div class="row"><span class="label">Repo:</span> {{ run.repo_url }}</div>
+<div class="row"><span class="label">Branch:</span> <code>{{ run.branch }}</code></div>
+<div class="row"><span class="label">Commit SHA:</span> <code>{{ run.commit_sha }}</code></div>
+<div class="row">
+<span class="label">Status:</span>
+<span class="status {{ run.status }}">{{ run.status }}</span>
+</div>
+{% if run.started_at %}
+<div class="row"><span class="label">Started:</span> {{ run.started_at }}</div>
+{% endif %}
+{% if run.finished_at %}
+<div class="row"><span class="label">Finished:</span> {{ run.finished_at }}</div>
+{% endif %}
+{% if run.summary %}
+<div class="summary">{{ run.summary }}</div>
+{% endif %}
+</div>
 
-  <body>
-    <h1>Pipeline Run</h1>
+{% if run.stages %}
+<h2>Pipeline Stages</h2>
+{% for stage in run.stages %}
+<div class="stage">
+<div class="stage-header" onclick="toggleOutput(this)">
+<div>
+<span class="stage-name">{{ stage.name }}</span>
+<span class="status stage-status {{ 'success' if stage.success else 'failure' }}">
+{{ 'passed' if stage.success else 'failed' }}
+</span>
+</div>
+<span class="toggle-icon">▼ Show output</span>
+</div>
+<div class="stage-command">
+<code>{{ stage.command }}</code>
+</div>
+<div class="stage-output">
+<pre>{{ stage.output if stage.output else '(no output)' }}</pre>
+</div>
+</div>
+{% endfor %}
+{% endif %}
 
-    <div class="card">
-      <div class="row"><span class="label">Run ID:</span> <code>{{ run.run_id }}</code></div>
-      <div class="row"><span class="label">Repo:</span> {{ run.repo_url }}</div>
-      <div class="row"><span class="label">Branch:</span> <code>{{ run.branch }}</code></div>
-      <div class="row"><span class="label">Commit SHA:</span> <code>{{ run.commit_sha }}</code></div>
-
-      <div class="row">
-        <span class="label">Status:</span>
-        <span class="status {{ run.status }}">{{ run.status }}</span>
-      </div>
-
-      {% if run.started_at %}
-      <div class="row"><span class="label">Started:</span> {{ run.started_at }}</div>
-      {% endif %}
-
-      {% if run.finished_at %}
-      <div class="row"><span class="label">Finished:</span> {{ run.finished_at }}</div>
-      {% endif %}
-    </div>
-
-    <p style="margin-top: 16px;">
-      Tip: Try <code>/runs/demo-run-123</code> to see the seeded example.
-    </p>
-  </body>
+<script>
+function toggleOutput(header) {
+  const output = header.parentElement.querySelector('.stage-output');
+  const icon = header.querySelector('.toggle-icon');
+  
+  if (output.classList.contains('expanded')) {
+    output.classList.remove('expanded');
+    icon.textContent = '▼ Show output';
+  } else {
+    output.classList.add('expanded');
+    icon.textContent = '▲ Hide output';
+  }
+}
+</script>
+</body>
 </html>

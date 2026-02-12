@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Pipeline Runs</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 24px; }
+table { border-collapse: collapse; width: 100%; max-width: 1000px; }
+th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+th { background: #f0f0f0; }
+.status { padding: 3px 8px; border-radius: 4px; font-size: 13px; }
+.success { background: #d4edda; }
+.failure { background: #f8d7da; }
+.pending { background: #fff3cd; }
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { background: #f4f4f4; padding: 2px 4px; }
+</style>
+</head>
+<body>
+<h1>Pipeline Runs</h1>
+
+{% if runs %}
+<table>
+<thead>
+<tr>
+<th>Run ID</th>
+<th>Status</th>
+<th>Branch</th>
+<th>Commit</th>
+<th>Started</th>
+</tr>
+</thead>
+<tbody>
+{% for run in runs %}
+<tr>
+<td><a href="/runs/{{ run.run_id }}">{{ run.run_id[:12] }}...</a></td>
+<td><span class="status {{ run.status }}">{{ run.status }}</span></td>
+<td><code>{{ run.branch }}</code></td>
+<td><code>{{ run.commit_sha[:7] }}</code></td>
+<td>{{ run.started_at }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<p>No runs found.</p>
+{% endif %}
+
+</body>
+</html>
