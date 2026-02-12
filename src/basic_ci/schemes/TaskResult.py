@@ -7,6 +7,11 @@ from basic_ci.schemes.stage_result import Stage_result
 
 @dataclass
 class TaskResult:
+    """
+    Stores relevant information related to a specific run of the CI server.
+    Used by NotificationService.send_github_status() to send information to github.
+    """
+    
     run_id: str
     repo_url: str
     branch: str

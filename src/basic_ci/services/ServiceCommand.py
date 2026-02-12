@@ -3,13 +3,20 @@ from pathlib import Path
 
 
 class ServiceCommand:
-    """
-    This service runs a custom command in the folder we're in.
-    IN: command (list of str) to run, path (Path)
-    OUT: CompletedProcess object with args, returncode, stdout, stderr
-    """
+
 
     def run_command(self, command: list[str], path: Path) -> subprocess.CompletedProcess:
+        """
+        This service runs a custom command in the folder we're in. It runs them in a shell.
+
+        Args:
+            command (list of str): Commands to run.
+            path (Path): path to directory where commands are run from
+
+        Returns:
+            CompletedProcess object: Contains args, returncode, stdout, stderr
+        """
+        
         command_str = " ".join(command) # To make command format compatible with shell=True 
         
         output = subprocess.run(
