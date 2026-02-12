@@ -48,3 +48,4 @@ Participated in all group meetings. Project leader and worked on core features a
 Participated in all group meetings. Worked on creating dataclasses for information from github, command services, task runner and more.
 
 
+Added assessment line
