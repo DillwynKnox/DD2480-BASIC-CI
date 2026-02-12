@@ -62,7 +62,7 @@ class TaskRunner:
         temp_dir = Path(tempfile.gettempdir())
         task_folder = self.file_service.create_folder(temp_dir / task.run_id)
         
-        self.git_service.clone_repo(task.commit_sha, task_folder)
+        self.git_service.clone_repo(task.commit_sha, str(task_folder))
 
         try:
             stage_results = self.pipeline_stage_service.run_stages(task_folder)

@@ -36,7 +36,7 @@ class Results_save_service:
 
 
 
-def get_Results_save_service(settings: Settings = get_settings)-> Results_save_service:
+def get_Results_save_service(settings: Settings = get_settings())-> Results_save_service:
     """
     Factory for the Results saver service
     Args:

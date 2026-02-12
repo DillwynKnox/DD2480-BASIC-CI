@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Header
 from fastapi.params import Depends
 
@@ -11,9 +13,9 @@ router = APIRouter(tags=["webhook"])
 @router.post("/webhook")
 async def handle_webhook(
     push_payload: Push_payload,  
+    verifier: Annotated[Signature_verifier, Depends(get_signature_verifier)],
+    task_service: Annotated[TaskService, Depends(get_TaskService)],
     x_hub_signature_256: str = Header(...), 
-    verifier: Signature_verifier = Depends(get_signature_verifier),
-    task_service: TaskService = Depends(get_TaskService)
 ) -> TaskResult:
     """Verifyies Signature and extract payload from incoming github webhook payloads."""
     print(f"Received webhook for repo: {push_payload.repository.full_name}")
