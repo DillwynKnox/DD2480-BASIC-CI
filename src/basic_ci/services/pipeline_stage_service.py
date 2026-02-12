@@ -12,7 +12,7 @@ from basic_ci.services.ServiceCommand import ServiceCommand
 
 
 class Pipeline_stage_service:
-    def __init__(self,command_service:ServiceCommand,pipeline_config_service:Pipeline_Config_service = pipeline_config_service):
+    def __init__(self,command_service:ServiceCommand,pipeline_config_service:Pipeline_Config_service = get_pipeline_config_service()):
         """
         Setup in order to be able to execute stages of pipeline
 
