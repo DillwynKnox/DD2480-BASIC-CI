@@ -210,3 +210,5 @@ __marimo__/
 .vscode
 .ruff_cache
 .dist
+
+pipeline_results/
