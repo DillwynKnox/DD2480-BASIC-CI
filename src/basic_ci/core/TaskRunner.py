@@ -16,6 +16,10 @@ from basic_ci.services.pipeline_stage_service import (
     Pipeline_stage_service,
     get_Pipeline_stage_service,
 )
+from basic_ci.services.result_save_service import (
+    Results_save_service,
+    get_Results_save_service,
+)
 from basic_ci.services.ServiceCommand import ServiceCommand, get_ServiceCommand
 
 """
@@ -31,14 +35,21 @@ class TaskRunner:
     """
     Run the actual task itself, by coordinating the other basic_ci services.
     """
-    def __init__(self, file_service: FileService, service_command: ServiceCommand, notification_service: NotificationService, git_service: GitcloneService , pipeline_stage_service: Pipeline_stage_service):
+    def __init__(self, file_service: FileService, 
+                service_command: ServiceCommand, 
+                notification_service: NotificationService, 
+                git_service: GitcloneService , 
+                pipeline_stage_service: Pipeline_stage_service,
+                result_saver: Results_save_service
+                ):
         self.file_service = file_service
         self.service_command = service_command
         self.notification_service = notification_service
         self.git_service = git_service
         self.pipeline_stage_service = pipeline_stage_service
+        self.result_saver = result_saver
 
-    def run_task(self, task: Task) ->TaskResult:
+    def run_task(self,task: Task) ->TaskResult:
         """
         Runs a task given it's id.
         IN: Task (object)
@@ -88,7 +99,7 @@ class TaskRunner:
             summary=summary
             )
         
-
+        self.result_saver.save_task_result(task_result)
         self.notification_service.send_github_status(task_result)
         return task_result
 
@@ -107,6 +118,7 @@ def get_TaskRunner(settings:Settings = get_settings(),notification_service:Optio
     pipeline_stage_service = get_Pipeline_stage_service(settings= settings)
     if notification_service is None:
         notification_service = get_NotificationService(settings=settings)
-    return TaskRunner(file_service=fileService,service_command=command_service, notification_service=notification_service, git_service=git_service, pipeline_stage_service=pipeline_stage_service)
+    result_saver = get_Results_save_service(settings= settings)
+    return TaskRunner(file_service=fileService,service_command=command_service, notification_service=notification_service, git_service=git_service, pipeline_stage_service=pipeline_stage_service, result_saver=result_saver)
 
     
