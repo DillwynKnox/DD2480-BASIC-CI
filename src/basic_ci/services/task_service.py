@@ -1,7 +1,12 @@
 from __future__ import annotations
 
+from fastapi import Depends
+
+from basic_ci.core.config import Settings, get_settings
+from basic_ci.core.TaskRunner import TaskRunner, get_TaskRunner
 from basic_ci.schemes.push_payload import Push_payload
 from basic_ci.schemes.task import Task
+from basic_ci.schemes.TaskResult import TaskResult
 from basic_ci.services.id_service import UIDService
 
 
@@ -11,7 +16,7 @@ class TaskService:
     It does not execute tasks; it only prepares them.
     """
 
-    def __init__(self, uid_service: UIDService):
+    def __init__(self, uid_service: UIDService, task_runner: TaskRunner):
         """
         Initialize the TaskService with a UID service.
 
@@ -22,7 +27,7 @@ class TaskService:
             None
         """
         self.uid_service = uid_service
-
+        self.task_runner = task_runner
     def create_task(self, payload: Push_payload) -> Task:
         """
         Convert a validated Push_payload object into a Task object.
@@ -54,6 +59,18 @@ class TaskService:
             branch=branch,
             commit_sha=commit_sha,
         )
+    
+    def run_task(self, push_payload: Push_payload) -> TaskResult:
+        """
+        Runs the actual task.
+        :param self: Description
+        :param task: Description
+        :type task: Task
+        :return: Description
+        :rtype: Any
+        """
+        task = self.create_task(push_payload)
+        return self.task_runner.run_task(task)
 
 
     def _extract_branch(self, ref: str) -> str:
@@ -95,3 +112,15 @@ class TaskService:
         # Currently your Repository model exposes html_url.
         # This is acceptable for now; clone_url/ssh_url can be added later.
         return pp.repository.html_url
+
+def get_TaskService(settings: Settings = Depends(get_settings)) -> TaskService:
+    """
+    Factory for Task Service    
+    :param settings: the general Config
+    :type settings: Settings
+    :return: a new instance of Settings 
+    :rtype: TaskService
+    """
+    uid_service = UIDService()
+    task_runner = get_TaskRunner(settings=settings)
+    return TaskService(uid_service=uid_service, task_runner=task_runner)

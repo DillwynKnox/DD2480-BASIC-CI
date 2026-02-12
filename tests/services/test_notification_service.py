@@ -18,7 +18,7 @@ def test_send_github_status_builds_correct_request():
         finished_at=datetime.now(),
         summary="All steps succeeded",
         details_url="https://example.com/builds/abc123",
-        commands=[],
+        stages=[],
     )
 
     with patch("basic_ci.services.notification_service.requests.post") as post_mock:

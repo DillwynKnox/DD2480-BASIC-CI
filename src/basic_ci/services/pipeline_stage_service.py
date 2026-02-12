@@ -1,15 +1,18 @@
 from pathlib import Path
 from typing import List
 
+from basic_ci.core.config import Settings, get_settings
 from basic_ci.schemes.pipeline import Stage
 from basic_ci.schemes.stage_result import Stage_result
-from basic_ci.services import pipeline_config_service
-from basic_ci.services.pipeline_config_service import Pipeline_Config_service
+from basic_ci.services.pipeline_config_service import (
+    Pipeline_Config_service,
+    get_pipeline_config_service,
+)
 from basic_ci.services.ServiceCommand import ServiceCommand
 
 
 class Pipeline_stage_service:
-    def __init__(self,command_service:ServiceCommand,pipeline_config_service:Pipeline_Config_service = pipeline_config_service):
+    def __init__(self,command_service:ServiceCommand,pipeline_config_service:Pipeline_Config_service):
         self.command_service = command_service
         self.pipeline_config_service = pipeline_config_service
 
@@ -29,9 +32,20 @@ class Pipeline_stage_service:
         """
         This gets the stages from the pipeline and runs them.
         """
-        stages = self.pipeline_config_service.get_pipeline().stages
+        stages = self.pipeline_config_service.load_pipeline_config().stages
         results = []
         for stage in stages:
             result = self.run_stage(stage, path=path)
             results.append(result)
         return results
+
+
+def get_Pipeline_stage_service(settings: Settings = get_settings()) -> Pipeline_stage_service:
+    """
+    Factory function to create a Pipeline_stage_service instance.
+    :return: Pipeline_stage_service instance
+    :rtype: Pipeline_stage_service
+    """
+    command_service = ServiceCommand()
+    pipeline_config_service = get_pipeline_config_service(settings = settings)
+    return Pipeline_stage_service(command_service, pipeline_config_service)
