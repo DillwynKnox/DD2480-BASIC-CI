@@ -31,18 +31,20 @@ make dev
 
 ## State of contribution
 - **Davide Mario Attebrant Sbrzesny (dmas)**
-
+Participated in all group meetings. Worked on git interaction, commandservices, various fixes and documentation and more. 
 
 - **Gabriel Alejandro Arias Goa (gaag2)**
+Participated in all group meetings. Worked on notificationservices, unique ID generation, making the pipeline work and more.
 
 
 - **Mohamed Aziz Jribi (jribi)**
+Participated in all group meetings. Worked on services that interact with files, loggers, docstrings to public methods and static syntax check and more.
 
 
 - **Anton Trappe (trappe/DillwynKnox)**
-
+Participated in all group meetings. Project leader and worked on core features and basic structure and design. FastAPI, endpoints for GitHub and setting up server and more.
 
 - **Yasmine Schüllerqvist (yasmines)**
-
+Participated in all group meetings. Worked on creating dataclasses for information from github, command services, task runner and more.
 
 
