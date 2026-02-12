@@ -1,3 +1,5 @@
+from unittest.mock import MagicMock
+
 import pytest
 
 from basic_ci.schemes.push_payload import Push_payload
@@ -11,6 +13,8 @@ class MockUIDService(UIDService):
     """
     def generate_run_id(self, commit_hash=None, length=24) -> str:
         return f"run-{commit_hash}"
+    
+
 
 
 def _minimal_push_payload(ref: str = "refs/heads/main", after: str = "abc123") -> dict:
@@ -63,7 +67,8 @@ def test_create_task():
     :return: None
     """
     uid = MockUIDService()
-    service = TaskService(uid)
+    task_runner = MagicMock()
+    service = TaskService(uid,task_runner=task_runner)
 
     payload = _minimal_push_payload_obj(ref="refs/heads/main", after="deadbeef")
     task = service.create_task(payload)
@@ -87,7 +92,8 @@ def test_create_task_supports_nested_branch_names():
     :return: None
     """
     uid = MockUIDService()
-    service = TaskService(uid)
+    task_runner = MagicMock()
+    service = TaskService(uid,task_runner=task_runner)
 
     payload = _minimal_push_payload_obj(ref="refs/heads/feature/x", after="abc123")
     task = service.create_task(payload)
@@ -108,7 +114,8 @@ def test_extract_branch_raises_on_non_head_ref():
     :return: None
     """
     uid = MockUIDService()
-    service = TaskService(uid)
+    task_runner = MagicMock()
+    service = TaskService(uid,task_runner=task_runner)
 
     payload = _minimal_push_payload_obj(ref="refs/tags/v1.0.0", after="abc123")
 
@@ -126,7 +133,8 @@ def test_task_is_immutable():
     :return: None
     """
     uid = MockUIDService()
-    service = TaskService(uid)
+    task_runner = MagicMock()
+    service = TaskService(uid,task_runner=task_runner)
     
     payload = _minimal_push_payload_obj()
     task = service.create_task(payload)
@@ -149,7 +157,8 @@ def test_extract_branch_various_formats():
     :return: None
     """
     uid = MockUIDService()
-    service = TaskService(uid)
+    task_runner = MagicMock()
+    service = TaskService(uid,task_runner=task_runner)
     
     test_cases = [
         ("refs/heads/main", "main"),
@@ -178,7 +187,8 @@ def test_create_task_without_head_commit():
     :return: None
     """
     uid = MockUIDService()
-    service = TaskService(uid)
+    task_runner = MagicMock()
+    service = TaskService(uid,task_runner=task_runner)
     
     payload = _minimal_push_payload_obj(after="sha_without_head_commit")
     # head_commit is already None in our helper
@@ -201,7 +211,8 @@ def test_unique_run_ids_for_different_commits():
     :return: None
     """
     uid = MockUIDService()
-    service = TaskService(uid)
+    task_runner = MagicMock()
+    service = TaskService(uid,task_runner=task_runner)
     
     # First task
     payload1 = _minimal_push_payload_obj(after="commit_abc")

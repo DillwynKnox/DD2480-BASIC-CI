@@ -15,10 +15,10 @@ def test_pipeline_execution_logic(tmp_path):
     service = Pipeline_stage_service(mock_command_service, mock_config_service)
     
     real_stages = [
-        Stage(stage="Lint", command="flake8 ."),
+        Stage(stage="Lint", command="ruff ."),
         Stage(stage="Test", command="pytest")
     ]
-    mock_config_service.get_pipeline.return_value = PipelineConfig(
+    mock_config_service.load_pipeline_config.return_value = PipelineConfig(
         project="test-project", 
         stages=real_stages
     )
@@ -36,4 +36,4 @@ def test_pipeline_execution_logic(tmp_path):
     assert results[1].success is False
     
     assert mock_command_service.run_command.call_count == 2
-    mock_command_service.run_command.assert_any_call(["flake8", "."], path=tmp_path)
+    mock_command_service.run_command.assert_any_call(["ruff", "."], path=tmp_path)
