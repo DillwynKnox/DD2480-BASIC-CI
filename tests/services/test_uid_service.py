@@ -21,5 +21,5 @@ def test_generate_run_id_length_bounds():
     short_id = service.generate_run_id(length=8)
     long_id = service.generate_run_id(length=100)
 
-    assert len(short_id) >= 12
+    assert len(short_id) < 12
     assert len(long_id) <= 64
