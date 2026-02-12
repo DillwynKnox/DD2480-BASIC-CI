@@ -1,5 +1,6 @@
-from pathlib import Path
 import logging
+from pathlib import Path
+
 import pytest
 
 from basic_ci.services.logger_service import LoggerService

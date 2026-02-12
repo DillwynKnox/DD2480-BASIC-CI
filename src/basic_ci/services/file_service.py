@@ -153,3 +153,6 @@ class FileService:
             raise ValueError(f"Source is not a directory: {src}")
 
         shutil.copytree(src, dst, dirs_exist_ok=True)
+
+def get_FileService() -> FileService:
+    return FileService()

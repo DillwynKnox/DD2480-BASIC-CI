@@ -8,15 +8,25 @@ from basic_ci.schemes.pipeline import PipelineConfig, Stage
 class Pipeline_Config_service:
     def __init__(self,settings:Settings = get_settings()):
         """
-        Service to read the configuration of the pipeline.       
-        :param settings: Settings object containing the configuration
-        :type settings: Settings
+        Service to read the configuration of the pipeline.
+
+        Args:
+            settings (Settings object): containing the configuration.
+    
         """
+        
         self.settings = settings
     
     def load_pipeline_config(self) -> PipelineConfig:
         """
         Loads the pipeline configuration from a YAML file specified in the settings.
+        
+        Returns:
+            config (PipelineConfig object): containing information about the project and the stages.
+            
+        Raises:
+            FileNotFoundError: If pipelin configuration file cannot be found.
+            ValueError: If pipeline configuration cannot be parsed.
         """
         try:
             with open(self.settings.PIPELINE_CONFIG_PATH, "r") as f:
@@ -34,9 +44,9 @@ class Pipeline_Config_service:
         return config
     
 
-def get_pipeline_config_service() -> Pipeline_Config_service:
+def get_pipeline_config_service(settings: Settings = get_settings()) -> Pipeline_Config_service:
     """
     Factory function to create a Pipeline_Config_service instance.
     """
-    return Pipeline_Config_service(settings=get_settings())
+    return Pipeline_Config_service(settings=settings)
         

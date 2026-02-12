@@ -1,6 +1,6 @@
-from basic_ci.services.gitclone_service import GitcloneService
-import pytest
 from unittest.mock import MagicMock, patch
+
+from basic_ci.services.gitclone_service import GitcloneService
 
 
 def test_clone_repo_calls_git_correctly():
