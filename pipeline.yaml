@@ -3,7 +3,7 @@ stages:
   - stage: setup
     command: make setup
   - stage: .env copy
-    command: cp .env.tests .env
+    command: cp .env.template .env
   - stage: run tests
     command: make test
   - stage: build
