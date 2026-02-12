@@ -28,4 +28,11 @@ class ServiceCommand:
             shell=True, # subprocess will get the correct shell for the correct OS, making get_OS redundant
         )
         return output
-        
+    
+def get_ServiceCommand()->ServiceCommand:
+    """
+    Factury for ServiceCommnads    
+    :return: returns a new instance of ServiceCommand
+    :rtype: ServiceCommand
+    """
+    return ServiceCommand()

@@ -1,17 +1,8 @@
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Literal, Optional
 
-
-@dataclass
-class CommandResult:
-    """
-    Used to store output from ServiceCommand.run_command().  
-    """
-    name: str
-    exit_code: int
-    stdout: str = ""
-    stderr: str = ""
+from basic_ci.schemes.stage_result import Stage_result
 
 
 @dataclass
@@ -26,11 +17,11 @@ class TaskResult:
     branch: str
     commit_sha: str
 
-    status: str  # "success" | "failure" | "pending" | "error"
-    started_at: datetime = field(default_factory=datetime.utcnow)
+    status: Literal["success" , "failure" , "pending" , "error"]
+    started_at:  Optional[datetime] = None
     finished_at: Optional[datetime] = None
 
-    commands: List[CommandResult] = field(default_factory=list)
+    stages: List[Stage_result] = field(default_factory=list)
     summary: str = ""
     details_url: Optional[str] = None  # later: /builds/<run_id> or similar
 

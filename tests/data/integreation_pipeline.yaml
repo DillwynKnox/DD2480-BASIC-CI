@@ -1,4 +1,4 @@
-project: Basic CI Pipeline
+project: integreation_test
 stages:
   - stage: setup
     command: make setup

@@ -44,9 +44,9 @@ class Pipeline_Config_service:
         return config
     
 
-def get_pipeline_config_service() -> Pipeline_Config_service:
+def get_pipeline_config_service(settings: Settings = get_settings()) -> Pipeline_Config_service:
     """
     Factory function to create a Pipeline_Config_service instance.
     """
-    return Pipeline_Config_service(settings=get_settings())
+    return Pipeline_Config_service(settings=settings)
         
