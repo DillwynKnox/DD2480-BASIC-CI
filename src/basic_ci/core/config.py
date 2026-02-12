@@ -26,4 +26,4 @@ def get_settings(env_filename: str = ".env") -> Settings:
         (Settings): Object with config information needed for the CI server to run.
     """
     
-    return Settings(_env_file=env_filename)
+    return Settings(_env_file=env_filename)# type: ignore[call-arg]

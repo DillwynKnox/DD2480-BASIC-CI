@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import List, Literal, Optional
+from typing import List, Optional
 
 from basic_ci.schemes.stage_result import Stage_result
 
@@ -17,7 +17,7 @@ class TaskResult:
     branch: str
     commit_sha: str
 
-    status: Literal["success" , "failure" , "pending" , "error"]
+    status: str
     started_at:  Optional[datetime] = None
     finished_at: Optional[datetime] = None
 

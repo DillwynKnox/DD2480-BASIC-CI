@@ -6,7 +6,7 @@ from basic_ci.schemes.TaskResult import TaskResult
 
 
 class Read_results_service:
-    def __init__(self, settings: Settings = get_settings()):
+    def __init__(self, settings: Settings = get_settings()) -> None:
         self.settings = settings
 
     def get_task_result(self, run_id: str) -> TaskResult:
@@ -18,8 +18,7 @@ class Read_results_service:
             TaskResult: The results of the run as a TaskResult object
         """
         task_result_path = Path(self.settings.SAVE_FOLDER) / run_id / "taskResult.json"
-        if not task_result_path.exists():
-            return None 
+  
         task_result_dict = json.load(task_result_path.open())
         return TaskResult(**task_result_dict)
     
@@ -29,7 +28,7 @@ class Read_results_service:
         Returns:
             list[TaskResult]: A list of TaskResult objects for all runs
         """
-        runs = []
+        runs: list[TaskResult] = []
         save_folder_path = Path(self.settings.SAVE_FOLDER)
         if not save_folder_path.exists():
             return runs

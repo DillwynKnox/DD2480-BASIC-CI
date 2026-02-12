@@ -29,7 +29,7 @@ class Signature_verifier:
             *,
             body: bytes,
             signature_header: str
-    ):
+    )-> None:
         """
         Varifyes github webhook secret.
         
@@ -58,7 +58,7 @@ async def get_signature_verifier(
     request: Request, 
     x_hub_signature_256: str = Header(...),
     settings: Settings = Depends(get_settings)
-):  
+)-> Signature_verifier:  
     
     """
     Uses fastAPI features to validate github webhook request signature.
