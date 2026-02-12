@@ -10,14 +10,14 @@ class InvalidSignature(Exception):
     pass
 
 class Signature_verifier:
-    def __init__(self, settings: Settings):
+    def __init__(self, settings: Settings) -> None:
         self.settings = settings
     def verify_signature(
             self,
             *,
             body: bytes,
             signature_header: str
-    ):
+    ) -> None :
         try:
             algo, signature = signature_header.split("=")
         except ValueError:
@@ -34,7 +34,7 @@ async def get_signature_verifier(
     request: Request, 
     x_hub_signature_256: str = Header(...),
     settings: Settings = Depends(get_settings)
-):    
+) -> Signature_verifier :    
     verifier = Signature_verifier(settings=settings)
     
     body = await request.body()
