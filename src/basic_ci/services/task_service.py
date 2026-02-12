@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from basic_ci.core.config import Settings
+from fastapi import Depends
+
+from basic_ci.core.config import Settings, get_settings
 from basic_ci.core.TaskRunner import TaskRunner, get_TaskRunner
 from basic_ci.schemes.push_payload import Push_payload
 from basic_ci.schemes.task import Task
@@ -45,7 +47,7 @@ class TaskService:
             commit_sha=commit_sha,
         )
     
-    def run_task(self, task: Task) -> TaskResult:
+    def run_task(self, push_payload: Push_payload) -> TaskResult:
         """
         Runs the actual task.
         :param self: Description
@@ -54,7 +56,7 @@ class TaskService:
         :return: Description
         :rtype: Any
         """
-        task = self.create_task(task)
+        task = self.create_task(push_payload)
         return self.task_runner.run_task(task)
 
 
@@ -83,7 +85,7 @@ class TaskService:
         # This is acceptable for now; clone_url/ssh_url can be added later.
         return pp.repository.html_url
 
-def get_TaskService(settings: Settings) -> TaskService:
+def get_TaskService(settings: Settings = Depends(get_settings)) -> TaskService:
     """
     Factory for Task Service    
     :param settings: the general Config
