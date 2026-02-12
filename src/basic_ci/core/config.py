@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     PIPELINE_CONFIG_PATH: str
     GITHUB_TOKEN:str
     REPO_URL:str
+    SAVE_FOLDER: str
     
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 

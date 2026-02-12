@@ -36,7 +36,8 @@ def integreation_settings():
         REPO_URL="https://github.com/DillwynKnox/DD2480-BASIC-CI",
         GITHUB_WEBHOOK_SECRET="dummytoken",
         GITHUB_TOKEN="dummytoken",
-        PIPELINE_CONFIG_PATH=str(DATA_DIR / "integreation_pipeline.yaml")
+        PIPELINE_CONFIG_PATH=str(DATA_DIR / "integreation_pipeline.yaml"),
+        SAVE_FOLDER = "pipeline_results/"
     )
 
 
