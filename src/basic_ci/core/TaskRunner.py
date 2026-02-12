@@ -40,7 +40,8 @@ class TaskRunner:
                 notification_service: NotificationService, 
                 git_service: GitcloneService , 
                 pipeline_stage_service: Pipeline_stage_service,
-                result_saver: Results_save_service
+                result_saver: Results_save_service,
+                settings: Settings = get_settings()
                 ):
         self.file_service = file_service
         self.service_command = service_command
@@ -48,6 +49,7 @@ class TaskRunner:
         self.git_service = git_service
         self.pipeline_stage_service = pipeline_stage_service
         self.result_saver = result_saver
+        self.settings = settings
 
     def run_task(self,task: Task) ->TaskResult:
         """
@@ -96,8 +98,9 @@ class TaskRunner:
             started_at=started_at,
             finished_at=finished_at,
             stages = stage_results,
-            summary=summary
-            )
+            summary=summary,
+            details_url=self.settings.RESULTS_URL_TEMPLATE.format(run_id=task.run_id)
+        )
         
         self.result_saver.save_task_result(task_result)
         self.notification_service.send_github_status(task_result)
@@ -119,6 +122,6 @@ def get_TaskRunner(settings:Settings = get_settings(),notification_service:Optio
     if notification_service is None:
         notification_service = get_NotificationService(settings=settings)
     result_saver = get_Results_save_service(settings= settings)
-    return TaskRunner(file_service=fileService,service_command=command_service, notification_service=notification_service, git_service=git_service, pipeline_stage_service=pipeline_stage_service, result_saver=result_saver)
+    return TaskRunner(file_service=fileService,service_command=command_service, notification_service=notification_service, git_service=git_service, pipeline_stage_service=pipeline_stage_service, result_saver=result_saver,settings=settings)  
 
     
