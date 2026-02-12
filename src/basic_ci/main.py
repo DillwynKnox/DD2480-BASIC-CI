@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 from basic_ci.api.system import router as system_router
 from basic_ci.api.webhook import router as webhook_router
-from basic_ci.api.runs_API import router as runs_router
+from basic_ci.api.run_information import router as runs_router
 app = FastAPI()
 
 @app.get("/")
